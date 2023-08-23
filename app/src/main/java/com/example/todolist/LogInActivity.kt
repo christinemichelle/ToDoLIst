@@ -16,5 +16,11 @@ class LogInActivity : AppCompatActivity() {
             var nxt_intent = Intent(this,SignUpActivity::class.java)
             startActivity(nxt_intent)
         }
+
+        var login: Button = findViewById(R.id.btnlogin)
+        login.setOnClickListener {
+            var Login = Intent(this,WelcomeActivity::class.java)
+            startActivity(Login)
+        }
     }
 }
