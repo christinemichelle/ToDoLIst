@@ -5,22 +5,51 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import com.example.todolist.databinding.ActivityLoginBinding
+import com.example.todolist.databinding.ActivitySignUpBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class LogInActivity : AppCompatActivity() {
+
+
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
 
-        var sup: TextView = findViewById(R.id.sup)
-        sup.setOnClickListener {
-            var nxt_intent = Intent(this,SignUpActivity::class.java)
-            startActivity(nxt_intent)
+        setContentView(binding.root)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        binding.sup.setOnClickListener {
+            val intent= Intent(this,SignUpActivity::class.java)
+            startActivity(intent)
         }
 
-        var login: Button = findViewById(R.id.btnlogin)
-        login.setOnClickListener {
-            var Login = Intent(this,WelcomeActivity::class.java)
-            startActivity(Login)
+        binding.btnlogin.setOnClickListener {
+            val Mail= binding.maill.text.toString()
+            val pass = binding.password.text.toString()
+
+
+            if (Mail.isNotEmpty()  && pass.isNotEmpty()){
+                firebaseAuth.createUserWithEmailAndPassword(Mail, pass).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        val intent =Intent(this, WelcomeActivity::class.java)
+                        startActivity(intent)
+                    }else
+                    {
+                        Toast.makeText(this,it.exception.toString() , Toast.LENGTH_SHORT) .show()
+
+                    }
+                }
+            } else
+            {
+                Toast.makeText(this,"Empty fields are not allowed!" , Toast.LENGTH_SHORT) .show()
+            }
         }
+
+
     }
 }
