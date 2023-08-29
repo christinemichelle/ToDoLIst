@@ -3,6 +3,7 @@ package com.example.todolist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 
 class WelcomeActivity : AppCompatActivity() {
@@ -10,10 +11,13 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        var task: Button = findViewById(R.id.btnnxt)
-        task.setOnClickListener {
-            var gototask= Intent(this, TaskActivity::class.java)
-            startActivity(gototask)
+
+        var create: View? = findViewById(R.id.fab)
+        if (create != null) {
+            create.setOnClickListener {
+                val nextintent =Intent(this,CreateTaskActivity::class.java)
+                startActivity(nextintent)
+            }
         }
     }
 }
